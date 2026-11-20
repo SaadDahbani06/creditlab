@@ -1,28 +1,30 @@
 [theme]
 base = "light"
-primaryColor = "#D7263D"
-backgroundColor = "#F6F3F3"
-secondaryBackgroundColor = "#FFFFFF"
-textColor = "#1C1B1F"
-linkColor = "#B81D31"
-borderColor = "#ECE4E4"
-dataframeBorderColor = "#F0EAEA"
-dataframeHeaderBackgroundColor = "#FBF7F7"
-font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-headingFont = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-baseRadius = "0.9rem"
-buttonRadius = "full"
+primaryColor = "#C8102E"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F6F6F6"
+textColor = "#161616"
+linkColor = "#C8102E"
+borderColor = "#E7E7E7"
+dataframeBorderColor = "#EDEDED"
+dataframeHeaderBackgroundColor = "#FAFAFA"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+headingFont = "Source Serif 4:https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap"
+baseRadius = "small"
+buttonRadius = "small"
 showWidgetBorder = true
-blueBackgroundColor = "#FDECEE"
-blueTextColor = "#9E1B2C"
-chartCategoricalColors =["#D7263D", "#3D6FB6", "#E58A3A", "#2A9D8F", "#9B5DB5"]
+blueBackgroundColor = "#F6F6F6"
+blueTextColor = "#262626"
+chartCategoricalColors = ["#C8102E", "#2C6FB0"]
 
 [theme.sidebar]
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F6F3F3"
+backgroundColor = "#FAFAFA"
 
 [server]
 headless = true
 
 [browser]
 gatherUsageStats = false
+
+[client]
+toolbarMode = "viewer"

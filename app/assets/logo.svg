@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="236" height="48" viewBox="0 0 236 48">
-  <rect x="2" y="4" width="40" height="40" rx="11" fill="#D7263D"/>
-  <path d="M12 32 L19 23 L24 27 L32 15" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="32" cy="15" r="3" fill="#FFFFFF"/>
-  <text x="54" y="32" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="800" letter-spacing="-0.4" fill="#1C1B1F">CREDIT<tspan fill="#D7263D">LAB</tspan></text>
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="32" viewBox="0 0 168 32">
+  <rect x="1" y="7" width="18" height="18" rx="2" fill="#C8102E"/>
+  <path d="M5.5 20 L9.5 15 L12 17.2 L15 12.5" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="28" y="23" font-family="'Source Serif 4', Georgia, 'Times New Roman', serif" font-size="20" font-weight="600" fill="#161616">CreditLab</text>
 </svg>

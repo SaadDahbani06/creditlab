@@ -31,3 +31,14 @@ policy:
   random_baseline_draws: 50
   pd_threshold_grid_size: 49
   policy_tail_sims: 300
+
+uncertainty:
+  n_bootstrap: 12
+  n_seed_refits: 4
+  retune:
+    n_bootstrap: 2
+    n_iter: 2
+    cv_folds: 2
+  inner_sims: 1000
+  rho_grid: [0.0, 0.04]
+  grid_sims: 500

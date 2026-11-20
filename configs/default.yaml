@@ -135,3 +135,23 @@ policy:
 
 dashboard:
   max_interactive_sims: 20000
+
+# ----------------------------------------------------------------------------------------------
+# Research extension (post-hoc, exploratory): PD estimation uncertainty -> tail-risk uncertainty.
+# See docs/RESEARCH_EXTENSION.md and decision D21. Uses the TRAINING split for refitting and the
+# TEST-split portfolio for risk; no test labels are used for any choice.
+uncertainty:
+  n_bootstrap: 200            # nonparametric bootstrap refits of each model family (fixed hyperparameters)
+  families: [xgboost, logistic]
+  n_seed_refits: 20           # XGBoost refits on the ORIGINAL training data with different seeds
+  retune:                     # sensitivity: re-run the hyperparameter search inside each bootstrap sample
+    n_bootstrap: 20
+    n_iter: 10
+    cv_folds: 3               # StratifiedGroupKFold by account ID, so duplicates never straddle folds
+  n_jobs: 4
+  inner_sims: 20000           # default paths per fitted model (common random numbers across models)
+  rho_main: [0.0, 0.04]       # independent and the base_correlated assumption
+  rho_grid: [0.0, 0.02, 0.04, 0.08, 0.12]
+  grid_sims: 10000
+  lgd: 0.60                   # HYPOTHETICAL, same as the base scenario
+  levels: [0.95, 0.99]

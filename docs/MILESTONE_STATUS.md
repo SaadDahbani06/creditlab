@@ -14,6 +14,8 @@ Commands are run from the project root with the project virtual environment acti
 | 6 | Hypothetical decision policy lab | VERIFIED |
 | 7 | Streamlit research dashboard | VERIFIED |
 | 8 | Research report & release | VERIFIED |
+| 9 | Research extension: PD estimation uncertainty (post-hoc) | VERIFIED |
+| 10 | Research site redesign (4 read-only pages) | VERIFIED |
 
 ---
 
@@ -120,3 +122,26 @@ functions. Missing artifacts produce setup instructions (tested), and the dashbo
 README, DATA_DICTIONARY, MATHEMATICS, MODEL_CARD, ASSUMPTIONS, LIMITATIONS, RESEARCH_REPORT (23
 generated tables), DECISIONS and PRESENTATION (demo script, resume bullets). Nothing has been
 committed or published; git is initialised locally only.
+
+## Milestone 9 — Research extension: PD estimation uncertainty (2026-11-20, post-hoc)
+
+| Check | Command | Result |
+|---|---|---|
+| Baseline frozen before any change | `shasum -a 256 -c results/baseline_v1/SHA256SUMS_original_artifacts.txt` | all OK; checkpoint commit `0ac9c8d` |
+| Extension run | `creditlab uncertainty` | exit 0, 722 s; 200 refits per family, 20 seed refits, 20 re-tuned refits |
+| Refit reproduces frozen model | `tests/test_uncertainty.py` | max abs PD difference 0.0 (both families) |
+| Fixed-PD rows reproduce original VaR/ES exactly | `tests/test_uncertainty.py` | VaR 95/99 and ES 95/99 identical to `scenario_summary.csv` |
+| Multi-PD engine equals single runs (common random numbers) | `tests/test_uncertainty.py` | exact equality for ρ ∈ {0, 0.04, 0.3} and two chunk sizes |
+| Law of total variance exact for the empirical mixture | `tests/test_uncertainty.py` | rel. error < 1e-9 |
+| Monte Carlo noise in the across-model spread | `noise_free_comparison.json`, `summary.json` | model-specific noise < 1% of across-model variance |
+| Fast smoke run | `creditlab uncertainty --config configs/fast.yaml` | exit 0, ~45 s, writes only to `artifacts/_fast/` |
+
+## Milestone 10 — Research site redesign (2026-11-20)
+
+| Check | Command | Result |
+|---|---|---|
+| Pages render, no errors | `pytest tests/test_app.py` | router + 4 site pages + 8 legacy pages render |
+| No playground controls on the main site | `tests/test_app.py::test_main_site_has_no_playground_controls` | no sliders, number inputs or selectors |
+| Missing artifacts show setup text | `tests/test_app.py` | passes |
+| Visual check | headless Chrome screenshots at 1440 px and 390 px | layout problems found and fixed (clipped chart titles, overflowing table, stray markers) |
+| Full suite and lint | `pytest && ruff check .` | 133 passed; all checks passed |

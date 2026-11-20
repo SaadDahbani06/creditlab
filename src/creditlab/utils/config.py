@@ -163,7 +163,10 @@ def update_manifest(cfg: Config, stage: str, details: dict[str, Any]) -> None:
     """Append a stage record to artifacts/metrics/run_manifest.json."""
     path = cfg.artifact_dir("metrics") / "run_manifest.json"
     manifest = read_json(path) if path.exists() else {}
-    manifest["config_source"] = str(cfg.source.relative_to(PROJECT_ROOT))
+    try:
+        manifest["config_source"] = str(cfg.source.relative_to(PROJECT_ROOT))
+    except ValueError:  # config kept outside the project (e.g. a scratch re-run)
+        manifest["config_source"] = str(cfg.source)
     manifest["config_fingerprint"] = cfg.fingerprint()
     manifest["config"] = cfg.raw
     manifest["seed"] = cfg.seed

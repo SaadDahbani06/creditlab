@@ -274,5 +274,10 @@ def run_report(cfg: Config) -> dict[str, str]:
             if path.exists():
                 injected[doc] = inject(path, tables)
                 log.info("Injected %d tables into %s", len(injected[doc]), doc)
+    from creditlab.reporting.extension_report import run_extension_report
+
+    ext = run_extension_report(cfg)
+    if ext:
+        injected["docs/RESEARCH_EXTENSION.md"] = ext
     update_manifest(cfg, "report", {"tables": list(tables), "injected": injected})
     return tables

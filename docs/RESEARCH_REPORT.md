@@ -10,7 +10,9 @@ estimate the probability that an existing account defaults on its next monthly p
 trace how those probabilities propagate into hypothetical portfolio-loss distributions and
 hypothetical selection policies.
 
-Model selection used a strict train/validation/test protocol. On the untouched test split,
+Model selection used a train/validation/test protocol in which every choice was frozen on
+validation before the test split was scored. (Test metrics were displayed once before a disclosed,
+non-material change to the calibration rule; see D9 and `docs/INDEPENDENT_REVIEW.md` §2.1.) On the test split,
 gradient-boosted trees (XGBoost) reached ROC-AUC 0.790 (95% bootstrap CI 0.777–0.804) against
 0.780 for an L2 logistic regression; the paired difference was +0.010 (CI +0.004 to +0.016). Both
 models were already well calibrated. Sigmoid and isotonic recalibration, fitted on training
@@ -156,8 +158,10 @@ learning rate, strong $\lambda$) was also already close to calibrated: its test 
 Isotonic regression created ties, lowering average precision by about 0.013. Both methods
 *worsened* XGBoost. Calibration is therefore not assumed to help. An earlier version of the
 selection rule (log loss lower and Brier not higher) picked logistic + sigmoid on a negligible
-gain. The rule was tightened to require a bootstrap-supported improvement *before* any downstream
-analysis; see `docs/DECISIONS.md` D9.
+gain. The rule was then tightened to require a bootstrap-supported improvement. Test metrics had
+already been displayed in that first run, so the test split is not untouched; the change did not
+alter the primary model or any reported test number (`docs/DECISIONS.md` D9,
+`docs/INDEPENDENT_REVIEW.md` §2.1).
 
 ![Reliability on validation](figures/reliability_validation.png)
 

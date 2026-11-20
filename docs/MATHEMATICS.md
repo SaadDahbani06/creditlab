@@ -24,7 +24,8 @@ PDs feed directly into the loss engine, so we want *probabilities*, not just ran
 **Split.** The 30,000 accounts are split 60/20/20 into train/validation/test, stratified on $Y$
 with a fixed seed (`data/preprocess.py::make_split`). Fitting and tuning use training data only.
 Every selection (calibration variant, primary model, thresholds, policy cutoff) uses validation
-data. The test split is scored once at the end. All accounts share one observation window, so this
+data. The test split is scored after all choices are frozen (test metrics were displayed once before
+the disclosed D9 rule change, which did not alter the primary model). All accounts share one observation window, so this
 is an *out-of-sample client* split, not an out-of-time backtest.
 
 ---

@@ -28,25 +28,44 @@ From the research configuration (`configs/default.yaml`, seed 20051001). The ful
   EAD = drawn + 50% of undrawn). 99% VaR is NTD 74.8M with independent defaults and NTD 114.0M
   with one-factor correlation ρ = 0.04.
 - A PD cutoff chosen on validation retains 57.9% of the test cohort with an **observed** default
-  rate of 9.9%, versus 22.1% for random cohorts of the same size.
+  rate of 9.9%, versus 22.1% for random cohorts of the same size (a weak baseline; see
+  `docs/INDEPENDENT_REVIEW.md` §5).
+
+**Research extension: PD estimation uncertainty** ([docs/RESEARCH_EXTENSION.md](docs/RESEARCH_EXTENSION.md);
+post-hoc, exploratory). 200 bootstrap refits of the model, nested Monte Carlo with common random
+numbers:
+
+- Under independent defaults the 99% VaR across refits spans NTD 72.2–77.1M (fixed-PD value
+  74.8M), and PD estimation explains 22.6% of loss variance. At ρ = 0.04 the range is
+  110.6–116.5M, but PD estimation explains only 0.5% of loss variance.
+- Most of this uncertainty is a portfolio-wide shift in PDs, and 81% of that shift is explained by
+  sampling noise in the training default rate.
+- Folding the uncertainty into a single mixture VaR changes it by under 0.5% (noise-free
+  calculation). The correlation assumption moves VaR roughly ten times more than PD estimation.
+
+**Evaluation status.** All choices were frozen on validation before the test split was scored.
+Test metrics were displayed once before a disclosed, non-material rule change (D9), so the test
+split is not described as untouched. Original outputs are frozen with checksums in
+[results/baseline_v1/](results/baseline_v1/). No independent validation data exists.
 
 ## Quick start
 
 Requires Python 3.11+ (developed on 3.11.15, macOS arm64). No API keys, paid services or cloud.
 
 ```bash
-cd creditlab
+cd creditlab                       # if you move the folder, recreate .venv (it stores absolute paths)
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"            # exact verified versions: pip install -r requirements-lock.txt
 
-creditlab all                      # fetch -> prepare -> train -> evaluate -> simulate -> policy -> report
-pytest                             # 104 tests, about 11 s once artifacts exist
+creditlab all                      # fetch -> prepare -> train -> evaluate -> simulate -> policy -> uncertainty -> report
+pytest                             # 133 tests, about 15 s once artifacts exist
 ruff check .
-streamlit run app/streamlit_app.py # dashboard at http://localhost:8501
+streamlit run app/streamlit_app.py # research site at http://localhost:8501
 ```
 
-The full research run took 71 seconds on an 8-core Apple-silicon laptop. For a smoke test that writes to
+The original pipeline takes about 71 seconds on an 8-core Apple-silicon laptop; the `uncertainty`
+stage adds about 12 minutes (200 refits per model family and nested simulation). For a smoke test that writes to
 `artifacts/_fast/` and never touches research artifacts:
 
 ```bash
@@ -67,7 +86,8 @@ If the download fails, place the official `data.csv` from
 | Evaluate | `creditlab evaluate` | Makes **all** selections on validation and freezes them, runs leakage checks, then scores the test split once with bootstrap CIs, explanations and an audit |
 | Simulate | `creditlab simulate` | Expected loss; chunked Monte Carlo (20,000 paths) of independent and one-factor Gaussian defaults; stress scenarios; VaR/ES; sensitivities |
 | Policy | `creditlab policy` | Hypothetical policies A–D on the test cohort; cutoff chosen on validation; break-even and revenue sensitivity |
-| Report | `creditlab report` | Regenerates figures and injects measured tables into `docs/RESEARCH_REPORT.md` and `docs/MODEL_CARD.md` |
+| Uncertainty | `creditlab uncertainty` | Research extension: bootstrap refits on the training split, nested common-random-number simulation, variance decomposition, noise-free semi-analytic checks, sensitivity and convergence |
+| Report | `creditlab report` | Regenerates figures and injects measured tables into `docs/RESEARCH_REPORT.md`, `docs/MODEL_CARD.md` and `docs/RESEARCH_EXTENSION.md` |
 
 Each stage records its config fingerprint, seed, environment and package versions in
 `artifacts/metrics/run_manifest.json`.
@@ -82,10 +102,12 @@ src/creditlab/
   models/           baselines/pipelines, tune, calibrate, train, evaluate, explain, audit
   risk/             assumptions (LGD/EAD), expected_loss, simulation, var_es, stress
   decisions/        policies, compare
-  reporting/        figures, dashboard helpers, report generation
+  research/         pd_uncertainty (post-hoc research extension)
+  reporting/        figures, site design system, report generation
   cli.py            `creditlab` entry point
-app/                Streamlit dashboard (8 pages)
-tests/              pytest suite (data, preprocessing, models, calibration, risk, simulation, policies, app)
+app/site/           read-only research site (4 pages); app/legacy/ keeps the v1 interactive tools
+results/baseline_v1 frozen original outputs + SHA-256 checksums
+tests/              pytest suite (data, preprocessing, models, calibration, risk, simulation, policies, uncertainty, app)
 notebooks/          01_exploration.ipynb (executed)
 docs/               report, mathematics, model card, assumptions, limitations, decisions, status
 ```
@@ -107,6 +129,8 @@ docs/               report, mathematics, model card, assumptions, limitations, d
 | Document | Contents |
 |---|---|
 | [RESEARCH_REPORT.md](docs/RESEARCH_REPORT.md) | Full report with measured tables and figures |
+| [RESEARCH_EXTENSION.md](docs/RESEARCH_EXTENSION.md) | PD estimation uncertainty → tail-risk uncertainty (derivations, results) |
+| [INDEPENDENT_REVIEW.md](docs/INDEPENDENT_REVIEW.md) | Independent methodological review, D9/D15 audit, ranked weaknesses |
 | [MATHEMATICS.md](docs/MATHEMATICS.md) | Derivations of every method used |
 | [MODEL_CARD.md](docs/MODEL_CARD.md) | Model details, performance, audit, intended use |
 | [DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md) | Variables, codes, anomalies, engineered features |
@@ -114,7 +138,7 @@ docs/               report, mathematics, model card, assumptions, limitations, d
 | [LIMITATIONS.md](docs/LIMITATIONS.md) | Data, modelling, simulation, policy and ethical limits |
 | [DECISIONS.md](docs/DECISIONS.md) | Implementation decisions, including two disclosed rule changes |
 | [MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md) | Verification commands and results per milestone |
-| [PRESENTATION.md](docs/PRESENTATION.md) | Two-minute demo script and resume bullets |
+| [PRESENTATION.md](docs/PRESENTATION.md) | Two-minute demo script |
 
 ## Data and attribution
 

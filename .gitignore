@@ -29,3 +29,8 @@ artifacts/_fast/
 .DS_Store
 .vscode/
 .idea/
+
+# Personal career material (never commit)
+docs/RESUME_RECOMMENDATIONS.md
+*resume*.docx
+*Resume*.docx

@@ -1,54 +1,38 @@
 # Presentation material
 
-## Two-minute demo script
+## Two-minute walkthrough of the research site
 
-*Setup: `streamlit run app/streamlit_app.py`; open the Overview page.*
+*Setup: `streamlit run app/streamlit_app.py`; start on Overview. Every number below is read from
+saved artifacts; check them on screen rather than quoting from memory.*
 
 **0:00 – Framing (Overview).**
-"CREDITLAB asks how far you can trust a credit model's probabilities, and what they imply for
-portfolio losses. It uses public data on 30,000 Taiwanese cardholders from 2005. Only the default
-probability is learned from data. Every money number rests on assumptions I state explicitly, and
-it isn't a lending system."
+"CreditLab asks two things: how well six months of repayment history predicts next-month default
+for 30,000 Taiwanese cardholders, and how much we should trust the portfolio tail-risk numbers
+built on those predictions. Only the default probability is learned from data. The money figures
+rest on stated assumptions and are not observed losses."
 
-**0:20 – Protocol (Overview → Model Comparison).**
-"I split 60/20/20 by client. Tuning used training cross-validation only. Every choice — model,
-calibration, threshold — was made on validation and frozen before the test set was touched. The
-pipeline checks this with a hash of the training IDs. On test, XGBoost reaches AUC 0.790 against
-0.780 for logistic regression. A paired bootstrap puts the gap at +0.010, CI 0.004 to 0.016: small
-but real. The dummy model gets 78% accuracy with no skill, which is why I select on log loss
-rather than accuracy."
+**0:20 – Protocol and models (Predictive Modeling).**
+"I split clients 60/20/20, tuned by training cross-validation, and froze every choice on
+validation before scoring the test split. One disclosed deviation: I had seen test metrics before
+tightening the calibration rule. It didn't change the selected model or any test number, but I
+don't call the test set untouched. XGBoost reaches AUC 0.790 against 0.780 for logistic regression.
+The paired-bootstrap gap is +0.010, so it's small but real. Both models are already calibrated, so
+recalibration wasn't adopted."
 
-**0:50 – Calibration.**
-"I fitted Platt and isotonic calibrators on out-of-fold training predictions. On validation
-neither beat the raw models by more than bootstrap noise, so I kept the raw ones. An early version
-of my rule accepted a −0.00004 log-loss 'improvement'; I tightened it and documented the change."
+**0:55 – Tail risk (Portfolio Risk & Findings, top).**
+"A one-factor Gaussian model turns PDs into a loss distribution. With independent defaults the
+99% VaR is only 7% above expected loss. With a small correlation, ρ = 0.04, expected loss is
+unchanged but VaR rises 52%, because bad months make many accounts default together."
 
-**1:10 – Portfolio risk and stress (Portfolio Risk → Stress Testing).**
-"With an assumed 60% LGD and drawn-plus-half-undrawn exposure, expected one-month loss is
-NTD 70 million. With independent defaults, 99% VaR is only 7% above that. Now I drag the
-correlation slider to 0.04: the mean doesn't move, but VaR jumps to about 114 million and the
-median falls. Correlation, not the PD model, drives the tail. Tests check that simulated marginal
-PDs match the inputs and that large-portfolio quantiles match the Vasicek formula."
+**1:20 – Research extension (same page, lower half).**
+"The usual calculation treats PDs as exact. I refitted the model on 200 bootstrap resamples of the
+training data and ran every PD set through the same simulated draws. Individual PDs move a lot,
+but that mostly cancels across 6,000 accounts. What remains is a portfolio-wide shift, driven
+mostly by how many defaults land in the training sample. Under independence that uncertainty is as
+large as the tail margin itself. Under correlation it is under 1% of loss variance, and the
+correlation assumption, which one month of data can't estimate, matters roughly ten times more."
 
-**1:40 – Policy lab and limits (Policy Lab).**
-"A PD cutoff chosen on validation keeps 58% of the test cohort, which defaults at 9.9%, versus 22%
-for random cohorts of the same size. That is the model's ranking value. Under one-month economics
-no account is profitable at any plausible margin, and these are observational comparisons on
-existing accounts, so none of this is causal or a lending recommendation. The limitations doc
-covers selection bias, the missing out-of-time test and group differences."
-
-## Candidate resume bullets
-
-Both use only verified implementation details and measured results from the research run.
-
-1. Built an end-to-end, tested Python credit-risk pipeline (pandas, DuckDB SQL, scikit-learn,
-   XGBoost) on 30,000 credit-card accounts, with leakage-checked train/validation/test selection.
-   XGBoost reached test ROC-AUC 0.790 (95% bootstrap CI 0.777–0.804) against 0.780 for logistic
-   regression; out-of-fold calibration showed no bootstrap-supported gain, so the raw models were
-   kept.
-
-2. Implemented a vectorised Monte Carlo engine (independent and one-factor Gaussian copula
-   defaults, tie-correct VaR/ES), validated against closed-form moments and the Vasicek limit.
-   It showed that default correlation of 0.04 raises 99% VaR on a hypothetical one-month
-   portfolio by 52% with expected loss unchanged. Served the results in a Streamlit dashboard
-   backed by 100+ pytest checks.
+**1:50 – Limits (Methodology & Limitations).**
+"The label is a missed payment, not a write-off, so the money figures are upper bounds. It is one
+period, existing customers only, and there's no independent validation set. The extension is
+post-hoc on the same data."

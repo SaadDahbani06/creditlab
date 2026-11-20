@@ -8,6 +8,7 @@ Stages run in this order (``creditlab all`` runs every stage):
   evaluate  select model/calibration/threshold on VALIDATION, then score the TEST split once
   simulate  expected loss, Monte Carlo VaR/ES, stress scenarios, sensitivities
   policy    hypothetical decision-policy comparison
+  uncertainty  research extension: bootstrap PD uncertainty propagated into VaR/ES (post-hoc)
   report    figures, tables and auto-generated report sections
 """
 
@@ -61,6 +62,12 @@ def _policy(cfg, args) -> None:
     run_policy(cfg)
 
 
+def _uncertainty(cfg, args) -> None:
+    from creditlab.research.pd_uncertainty import run_uncertainty
+
+    run_uncertainty(cfg)
+
+
 def _report(cfg, args) -> None:
     from creditlab.reporting.generate import run_report
 
@@ -74,6 +81,8 @@ STAGES: dict[str, tuple[Callable, str]] = {
     "evaluate": (_evaluate, "Validation-based selection, then one-time test evaluation"),
     "simulate": (_simulate, "Expected loss, Monte Carlo VaR/ES and stress scenarios"),
     "policy": (_policy, "Hypothetical decision-policy comparison"),
+    "uncertainty": (_uncertainty, "Research extension: PD estimation uncertainty -> VaR/ES "
+                                  "uncertainty (bootstrap refits + nested simulation)"),
     "report": (_report, "Generate figures, tables and report sections"),
 }
 

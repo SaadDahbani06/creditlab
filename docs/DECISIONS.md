@@ -103,3 +103,30 @@ to the user's global Jupyter configuration.
 ## D19. Figures copied into docs/
 `creditlab report` copies `artifacts/figures/*.png` to `docs/figures/` so the research report
 renders without the git-ignored artifacts directory.
+
+## D20. Wording corrected: the test split is not "untouched" (2026-11-19, post-hoc)
+The research report described the test split as "untouched" and said the D9 rule change happened
+"before any downstream analysis". Both statements omitted that test metrics had already been
+displayed (as D9 itself records). The wording in `RESEARCH_REPORT.md`, `MATHEMATICS.md` and
+`MODEL_CARD.md` was corrected. No number changed. The original outputs are frozen with checksums in
+`results/baseline_v1/`.
+
+## D21. PD-estimation-uncertainty extension is post-hoc and exploratory (2026-11-19)
+The extension (`docs/RESEARCH_EXTENSION.md`) was designed after every original test result was
+known. It reuses the training split (bootstrap) and the test-split portfolio, and it selects
+nothing using test labels. Its findings are descriptive analyses of the existing data, not an
+independent validation. No new untouched data exists for this project.
+
+## D22. Research site simplified to four read-only pages (2026-11-20)
+The eight-page dashboard, with its scenario sliders, seed inputs and simulation-count controls,
+was replaced by a four-page read-only site (`app/site/`): Overview, Predictive Modeling, Portfolio
+Risk & Findings, and Methodology & Limitations. Every number is read from saved artifacts and the
+site runs no simulation. The v1 pages, including the Stress Testing and Policy Lab tools, were moved
+unchanged to `app/legacy/`. They still run on their own and are still tested, and the risk and
+policy code they call is untouched. Policy Lab was dropped from the main site because its money
+comparisons are mostly implied by the assumptions (`docs/INDEPENDENT_REVIEW.md` §5).
+
+## D23. Resume material kept out of the repository (2026-11-20)
+`docs/RESUME_RECOMMENDATIONS.md` contains personal career information and is listed in
+`.gitignore`. The resume bullets were removed from `docs/PRESENTATION.md`; the draft revision of
+the resume itself is stored outside the project folder.

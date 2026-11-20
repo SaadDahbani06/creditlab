@@ -46,7 +46,7 @@ reasons about an individual.
 UCI dataset 350 (CC BY 4.0), 30,000 existing accounts. Stratified client-level split of
 60/20/20 (train/validation/test), fixed seed. Persisted in `data/processed/splits.csv`.
 
-## Evaluation (test split, scored once after validation-based selection)
+## Evaluation (test split, scored after validation-based selection; see D9 for the one disclosed deviation)
 
 <!-- BEGIN:test_metrics -->
 | model | ROC-AUC | AUC 95% CI | PR-AUC (AP) | AP 95% CI | Brier | log loss | accuracy @0.5 |
