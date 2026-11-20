@@ -1,0 +1,12 @@
+status_code,official_meaning,n_accounts,n_defaults,default_rate
+-2,undocumented,1621,188.0,0.116
+-1,pay duly,3454,592.0,0.1714
+0,undocumented,8870,1157.0,0.1304
+1,delay 1 month(s),2217,758.0,0.3419
+2,delay 2 month(s),1552,1089.0,0.7017
+3,delay 3 month(s),201,149.0,0.7413
+4,delay 4 month(s),52,33.0,0.6346
+5,delay 5 month(s),13,6.0,0.4615
+6,delay 6 month(s),5,2.0,0.4
+7,delay 7 month(s),3,2.0,0.6667
+8,delay 8 month(s),12,6.0,0.5

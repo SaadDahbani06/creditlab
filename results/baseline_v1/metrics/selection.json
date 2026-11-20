@@ -1,0 +1,385 @@
+{
+  "selected_using": "validation split only",
+  "selected_utc": "2026-11-19T15:37:00+00:00",
+  "rule_calibration": "calibrated variant must lower validation log loss, not raise Brier, and have a paired-bootstrap 95% CI of the log-loss change below 0",
+  "rule_primary": "lowest validation log loss among each family's chosen variant",
+  "rule_threshold": "max_f1",
+  "families": {
+    "logistic": {
+      "chosen_variant": "raw",
+      "model": "logistic_raw",
+      "qualifying_calibrations": [],
+      "threshold_max_f1": 0.2634961183147832
+    },
+    "xgboost": {
+      "chosen_variant": "raw",
+      "model": "xgboost_raw",
+      "qualifying_calibrations": [],
+      "threshold_max_f1": 0.28664302825927734
+    }
+  },
+  "primary_family": "xgboost",
+  "primary_model": "xgboost_raw",
+  "dummy_threshold_max_f1": 0.2212222222222222,
+  "validation_metrics": {
+    "dummy_raw": {
+      "roc_auc": 0.5,
+      "average_precision": 0.22116666666666668,
+      "brier": 0.17225197530864197,
+      "log_loss": 0.5283806202351554,
+      "ece": 5.555555555555869e-05,
+      "calibration_intercept": NaN,
+      "calibration_slope": NaN,
+      "mean_pd_minus_default_rate": 5.555555555555869e-05,
+      "accuracy_at_0.5": 0.7788333333333334
+    },
+    "logistic_raw": {
+      "roc_auc": 0.771772972765511,
+      "average_precision": 0.539747667953866,
+      "brier": 0.13536131315403596,
+      "log_loss": 0.4332493760566716,
+      "ece": 0.019823979165595425,
+      "calibration_intercept": -0.060260433620461996,
+      "calibration_slope": 0.9680311894611824,
+      "mean_pd_minus_default_rate": 0.003404765822463629,
+      "accuracy_at_0.5": 0.8203333333333334
+    },
+    "logistic_sigmoid": {
+      "roc_auc": 0.771772972765511,
+      "average_precision": 0.539747667953866,
+      "brier": 0.13535559115979315,
+      "log_loss": 0.4332044958328826,
+      "ece": 0.01975015723335214,
+      "calibration_intercept": -0.04943265538255697,
+      "calibration_slope": 0.9771201154177298,
+      "mean_pd_minus_default_rate": 0.0032950977581389373,
+      "accuracy_at_0.5": 0.8201666666666667
+    },
+    "logistic_isotonic": {
+      "roc_auc": 0.770981335320947,
+      "average_precision": 0.5262864944668024,
+      "brier": 0.13545958444330913,
+      "log_loss": 0.43845986163506556,
+      "ece": 0.012548589875952691,
+      "calibration_intercept": -0.0800617403927389,
+      "calibration_slope": 0.9486401897190989,
+      "mean_pd_minus_default_rate": 0.0034746964094784505,
+      "accuracy_at_0.5": 0.8223333333333334
+    },
+    "xgboost_raw": {
+      "roc_auc": 0.784357169914681,
+      "average_precision": 0.5553909931289968,
+      "brier": 0.1338197997990416,
+      "log_loss": 0.4269147417717667,
+      "ece": 0.013671567440653846,
+      "calibration_intercept": 0.011903221647291112,
+      "calibration_slope": 1.024989615216598,
+      "mean_pd_minus_default_rate": 0.001996250565474228,
+      "accuracy_at_0.5": 0.8206666666666667
+    },
+    "xgboost_sigmoid": {
+      "roc_auc": 0.784357169914681,
+      "average_precision": 0.5553909931289968,
+      "brier": 0.13455653421390112,
+      "log_loss": 0.4297730399389137,
+      "ece": 0.030158962270015157,
+      "calibration_intercept": -0.05438388238899743,
+      "calibration_slope": 0.9755790328773003,
+      "mean_pd_minus_default_rate": 0.003527376242295821,
+      "accuracy_at_0.5": 0.8195
+    },
+    "xgboost_isotonic": {
+      "roc_auc": 0.7833921753193924,
+      "average_precision": 0.542031355530342,
+      "brier": 0.13423438010649907,
+      "log_loss": 0.42834425135798543,
+      "ece": 0.01777801530746121,
+      "calibration_intercept": -0.07013381502392783,
+      "calibration_slope": 0.959313543418966,
+      "mean_pd_minus_default_rate": 0.0036572589334100403,
+      "accuracy_at_0.5": 0.8198333333333333
+    }
+  },
+  "validation_bootstrap": [
+    {
+      "model": "logistic_raw",
+      "metric": "roc_auc",
+      "ci_low": 0.757013534999173,
+      "ci_high": 0.7887515617495098,
+      "boot_mean": 0.7726886184229631
+    },
+    {
+      "model": "logistic_raw",
+      "metric": "average_precision",
+      "ci_low": 0.5124024252466743,
+      "ci_high": 0.5722270773116903,
+      "boot_mean": 0.5415446877575056
+    },
+    {
+      "model": "logistic_raw",
+      "metric": "brier",
+      "ci_low": 0.12948755038323606,
+      "ci_high": 0.14070299951471815,
+      "boot_mean": 0.13520161818944007
+    },
+    {
+      "model": "logistic_raw",
+      "metric": "log_loss",
+      "ci_low": 0.4178808124224065,
+      "ci_high": 0.44726788388811034,
+      "boot_mean": 0.43275660598084004
+    },
+    {
+      "model": "logistic_sigmoid",
+      "metric": "roc_auc",
+      "ci_low": 0.757013534999173,
+      "ci_high": 0.7887515617495098,
+      "boot_mean": 0.7726886184229631
+    },
+    {
+      "model": "logistic_sigmoid",
+      "metric": "average_precision",
+      "ci_low": 0.5124024252466743,
+      "ci_high": 0.5722270773116903,
+      "boot_mean": 0.5415446877575056
+    },
+    {
+      "model": "logistic_sigmoid",
+      "metric": "brier",
+      "ci_low": 0.12952116050201934,
+      "ci_high": 0.14068663280474614,
+      "boot_mean": 0.13519740552226414
+    },
+    {
+      "model": "logistic_sigmoid",
+      "metric": "log_loss",
+      "ci_low": 0.4179219588629147,
+      "ci_high": 0.4471887427784387,
+      "boot_mean": 0.43271705671831084
+    },
+    {
+      "model": "logistic_isotonic",
+      "metric": "roc_auc",
+      "ci_low": 0.7559358563370939,
+      "ci_high": 0.7877120106250162,
+      "boot_mean": 0.7718611288643018
+    },
+    {
+      "model": "logistic_isotonic",
+      "metric": "average_precision",
+      "ci_low": 0.49901041558670606,
+      "ci_high": 0.5575783864900112,
+      "boot_mean": 0.5277905162134302
+    },
+    {
+      "model": "logistic_isotonic",
+      "metric": "brier",
+      "ci_low": 0.12965774963292256,
+      "ci_high": 0.14064314054749652,
+      "boot_mean": 0.13529392156641198
+    },
+    {
+      "model": "logistic_isotonic",
+      "metric": "log_loss",
+      "ci_low": 0.4209029683201248,
+      "ci_high": 0.4610326180446226,
+      "boot_mean": 0.43751298861538995
+    },
+    {
+      "model": "xgboost_raw",
+      "metric": "roc_auc",
+      "ci_low": 0.7708358913343505,
+      "ci_high": 0.8009836785900706,
+      "boot_mean": 0.7850388118279066
+    },
+    {
+      "model": "xgboost_raw",
+      "metric": "average_precision",
+      "ci_low": 0.5284997802977652,
+      "ci_high": 0.5856382569984115,
+      "boot_mean": 0.5571873587734956
+    },
+    {
+      "model": "xgboost_raw",
+      "metric": "brier",
+      "ci_low": 0.12844490995868385,
+      "ci_high": 0.13938586380399448,
+      "boot_mean": 0.1336482720925792
+    },
+    {
+      "model": "xgboost_raw",
+      "metric": "log_loss",
+      "ci_low": 0.41254028652821045,
+      "ci_high": 0.4416541735244604,
+      "boot_mean": 0.42646731453244513
+    },
+    {
+      "model": "xgboost_sigmoid",
+      "metric": "roc_auc",
+      "ci_low": 0.7708358913343505,
+      "ci_high": 0.8009836785900706,
+      "boot_mean": 0.7850388118279066
+    },
+    {
+      "model": "xgboost_sigmoid",
+      "metric": "average_precision",
+      "ci_low": 0.5284997802977652,
+      "ci_high": 0.5856382569984115,
+      "boot_mean": 0.5571873587734956
+    },
+    {
+      "model": "xgboost_sigmoid",
+      "metric": "brier",
+      "ci_low": 0.12903139423709747,
+      "ci_high": 0.14041831048343614,
+      "boot_mean": 0.13437588690303306
+    },
+    {
+      "model": "xgboost_sigmoid",
+      "metric": "log_loss",
+      "ci_low": 0.4154781288539275,
+      "ci_high": 0.4445662249221615,
+      "boot_mean": 0.42930481120650793
+    },
+    {
+      "model": "xgboost_isotonic",
+      "metric": "roc_auc",
+      "ci_low": 0.7698114693123581,
+      "ci_high": 0.8000468056962404,
+      "boot_mean": 0.7840810891262465
+    },
+    {
+      "model": "xgboost_isotonic",
+      "metric": "average_precision",
+      "ci_low": 0.5161045228895843,
+      "ci_high": 0.5720369036946903,
+      "boot_mean": 0.543677206507708
+    },
+    {
+      "model": "xgboost_isotonic",
+      "metric": "brier",
+      "ci_low": 0.12878769653742814,
+      "ci_high": 0.1398136698983888,
+      "boot_mean": 0.13405966210538123
+    },
+    {
+      "model": "xgboost_isotonic",
+      "metric": "log_loss",
+      "ci_low": 0.4137559237479668,
+      "ci_high": 0.4434298740117693,
+      "boot_mean": 0.42788442994188586
+    },
+    {
+      "model": "logistic_sigmoid - logistic_raw",
+      "metric": "roc_auc",
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "boot_mean": 0.0
+    },
+    {
+      "model": "logistic_sigmoid - logistic_raw",
+      "metric": "average_precision",
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "boot_mean": 0.0
+    },
+    {
+      "model": "logistic_sigmoid - logistic_raw",
+      "metric": "brier",
+      "ci_low": -4.203953634245791e-05,
+      "ci_high": 3.205070256271507e-05,
+      "boot_mean": -4.212667175923168e-06
+    },
+    {
+      "model": "logistic_sigmoid - logistic_raw",
+      "metric": "log_loss",
+      "ci_low": -0.00013756621416511627,
+      "ci_high": 6.204774883424438e-05,
+      "boot_mean": -3.954926252913793e-05
+    },
+    {
+      "model": "logistic_isotonic - logistic_raw",
+      "metric": "roc_auc",
+      "ci_low": -0.0017575598933144531,
+      "ci_high": 0.00015382534337561571,
+      "boot_mean": -0.0008274895586612197
+    },
+    {
+      "model": "logistic_isotonic - logistic_raw",
+      "metric": "average_precision",
+      "ci_low": -0.018437650118645295,
+      "ci_high": -0.009288658043112425,
+      "boot_mean": -0.013754171544075367
+    },
+    {
+      "model": "logistic_isotonic - logistic_raw",
+      "metric": "brier",
+      "ci_low": -0.00036778910032593743,
+      "ci_high": 0.0005188856594308995,
+      "boot_mean": 9.230337697191138e-05
+    },
+    {
+      "model": "logistic_isotonic - logistic_raw",
+      "metric": "log_loss",
+      "ci_low": -0.0012239657985123067,
+      "ci_high": 0.016304358006168716,
+      "boot_mean": 0.004756382634549905
+    },
+    {
+      "model": "xgboost_sigmoid - xgboost_raw",
+      "metric": "roc_auc",
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "boot_mean": 0.0
+    },
+    {
+      "model": "xgboost_sigmoid - xgboost_raw",
+      "metric": "average_precision",
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "boot_mean": 0.0
+    },
+    {
+      "model": "xgboost_sigmoid - xgboost_raw",
+      "metric": "brier",
+      "ci_low": 0.00014970520449939518,
+      "ci_high": 0.0012899523302439154,
+      "boot_mean": 0.0007276148104538562
+    },
+    {
+      "model": "xgboost_sigmoid - xgboost_raw",
+      "metric": "log_loss",
+      "ci_low": 0.0008844425773749221,
+      "ci_high": 0.004790480255702034,
+      "boot_mean": 0.002837496674062739
+    },
+    {
+      "model": "xgboost_isotonic - xgboost_raw",
+      "metric": "roc_auc",
+      "ci_low": -0.001687893165190396,
+      "ci_high": -0.0002760237481039069,
+      "boot_mean": -0.0009577227016599841
+    },
+    {
+      "model": "xgboost_isotonic - xgboost_raw",
+      "metric": "average_precision",
+      "ci_low": -0.015828704487352498,
+      "ci_high": -0.01106544833540969,
+      "boot_mean": -0.013510152265787558
+    },
+    {
+      "model": "xgboost_isotonic - xgboost_raw",
+      "metric": "brier",
+      "ci_low": 3.2082657276510944e-05,
+      "ci_high": 0.0008022654219691165,
+      "boot_mean": 0.000411390012801999
+    },
+    {
+      "model": "xgboost_isotonic - xgboost_raw",
+      "metric": "log_loss",
+      "ci_low": 0.00040346076188794435,
+      "ci_high": 0.002547005576892768,
+      "boot_mean": 0.001417115409440707
+    }
+  ]
+}

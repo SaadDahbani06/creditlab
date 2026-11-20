@@ -1,0 +1,31 @@
+# Environments
+.venv/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data: raw source is downloaded by `creditlab fetch` (CC BY 4.0, not redistributed here)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated artifacts (reproducible with `creditlab all`)
+artifacts/models/*
+artifacts/metrics/*
+artifacts/figures/*
+artifacts/predictions/*
+artifacts/_fast/
+!artifacts/**/.gitkeep
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

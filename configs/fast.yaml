@@ -1,0 +1,33 @@
+# Fast configuration for smoke tests and CI-style checks.
+# Inherits everything from default.yaml and overrides only expensive settings.
+# Results produced with this config are NOT the research results.
+extends: default.yaml
+
+paths:
+  artifacts_dir: artifacts/_fast
+
+models:
+  cv_folds: 3
+  logistic:
+    C: [0.01, 1.0]
+    class_weight: [null, balanced]
+  xgboost:
+    n_iter: 3
+
+calibration:
+  cv_folds: 3
+
+evaluation:
+  bootstrap_reps: 100
+
+simulation:
+  n_sims: 1000
+  chunk_size: 250
+  convergence_points: 10
+  rho_grid: [0.0, 0.04, 0.12]
+  sensitivity_n_sims: 500
+
+policy:
+  random_baseline_draws: 50
+  pd_threshold_grid_size: 49
+  policy_tail_sims: 300

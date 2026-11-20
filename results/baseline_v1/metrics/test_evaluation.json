@@ -1,0 +1,137 @@
+{
+  "evaluated_utc": "2026-11-19T15:37:07+00:00",
+  "split_label": "out-of-sample client split (NOT a chronological backtest)",
+  "n_test": 6000,
+  "n_test_defaults": 1327,
+  "leakage_checks": {
+    "train_ids_match_model_metadata": true,
+    "n_train_matches": true,
+    "validation_disjoint_from_train": true,
+    "test_disjoint_from_train": true,
+    "test_disjoint_from_validation": true
+  },
+  "primary_model": "xgboost_raw",
+  "test_metrics": {
+    "dummy_raw": {
+      "roc_auc": 0.5,
+      "average_precision": 0.22116666666666668,
+      "brier": 0.172251975308642,
+      "log_loss": 0.5283806202351554,
+      "ece": 5.555555555555869e-05,
+      "calibration_intercept": NaN,
+      "calibration_slope": NaN,
+      "mean_pd_minus_default_rate": 5.555555555555869e-05,
+      "accuracy_at_0.5": 0.7788333333333334
+    },
+    "logistic_raw": {
+      "roc_auc": 0.7799380139333995,
+      "average_precision": 0.5389103080696388,
+      "brier": 0.1354567384924624,
+      "log_loss": 0.43218457091731804,
+      "ece": 0.01265729615002736,
+      "calibration_intercept": -0.03262958034568951,
+      "calibration_slope": 0.9861254905026289,
+      "mean_pd_minus_default_rate": 0.002343407743018888,
+      "accuracy_at_0.5": 0.8196666666666667
+    },
+    "logistic_sigmoid": {
+      "roc_auc": 0.7799380139333995,
+      "average_precision": 0.5389103080696388,
+      "brier": 0.13545576389373684,
+      "log_loss": 0.43216937510672915,
+      "ece": 0.012657595611969323,
+      "calibration_intercept": -0.021596598901350555,
+      "calibration_slope": 0.9953757669704953,
+      "mean_pd_minus_default_rate": 0.0022431062515848865,
+      "accuracy_at_0.5": 0.8193333333333334
+    },
+    "logistic_isotonic": {
+      "roc_auc": 0.7794676919519224,
+      "average_precision": 0.526919731634503,
+      "brier": 0.1353975778433455,
+      "log_loss": 0.4422375144512768,
+      "ece": 0.013090579234209376,
+      "calibration_intercept": -0.06040472940758555,
+      "calibration_slope": 0.9602441761384155,
+      "mean_pd_minus_default_rate": 0.002416888736458067,
+      "accuracy_at_0.5": 0.8221666666666667
+    },
+    "xgboost_raw": {
+      "roc_auc": 0.7899125812299198,
+      "average_precision": 0.5592015874752176,
+      "brier": 0.13352730634513924,
+      "log_loss": 0.42440263566138764,
+      "ece": 0.012725486554826304,
+      "calibration_intercept": 0.04351666306917655,
+      "calibration_slope": 1.042505818017457,
+      "mean_pd_minus_default_rate": 0.00031971613876519145,
+      "accuracy_at_0.5": 0.8215
+    },
+    "xgboost_sigmoid": {
+      "roc_auc": 0.7899125812299198,
+      "average_precision": 0.5592015874752176,
+      "brier": 0.13446819667065363,
+      "log_loss": 0.42899657031449456,
+      "ece": 0.03052356051984531,
+      "calibration_intercept": -0.030792356825078217,
+      "calibration_slope": 0.9850110674073103,
+      "mean_pd_minus_default_rate": 0.0017888487654079965,
+      "accuracy_at_0.5": 0.8203333333333334
+    },
+    "xgboost_isotonic": {
+      "roc_auc": 0.7896535937098608,
+      "average_precision": 0.5460929373708793,
+      "brier": 0.13369862749204764,
+      "log_loss": 0.4243673153578905,
+      "ece": 0.014713527155419195,
+      "calibration_intercept": -0.033090559729783725,
+      "calibration_slope": 0.980898008950017,
+      "mean_pd_minus_default_rate": 0.0016764230430126037,
+      "accuracy_at_0.5": 0.8206666666666667
+    }
+  },
+  "test_threshold_metrics": {
+    "logistic_raw": {
+      "threshold": 0.2634961183147832,
+      "precision": 0.501609787508049,
+      "recall": 0.5870384325546345,
+      "f1": 0.5409722222222222,
+      "accuracy": 0.7796666666666666,
+      "flagged_share": 0.25883333333333336,
+      "confusion_matrix": {
+        "tn": 3899,
+        "fp": 774,
+        "fn": 548,
+        "tp": 779
+      }
+    },
+    "xgboost_raw": {
+      "threshold": 0.28664302825927734,
+      "precision": 0.5252161383285303,
+      "recall": 0.549359457422758,
+      "f1": 0.5370165745856353,
+      "accuracy": 0.7905,
+      "flagged_share": 0.23133333333333334,
+      "confusion_matrix": {
+        "tn": 4014,
+        "fp": 659,
+        "fn": 598,
+        "tp": 729
+      }
+    },
+    "dummy_raw": {
+      "threshold": 0.2212222222222222,
+      "precision": 0.22116666666666668,
+      "recall": 1.0,
+      "f1": 0.362221918929985,
+      "accuracy": 0.22116666666666668,
+      "flagged_share": 1.0,
+      "confusion_matrix": {
+        "tn": 0,
+        "fp": 4673,
+        "fn": 0,
+        "tp": 1327
+      }
+    }
+  }
+}

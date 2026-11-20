@@ -1,0 +1,16 @@
+{
+  "definition": "r* = (PD*LGD*EAD + c) / ((1-PD)*max(BILL_AMT1,0)); one-month horizon",
+  "assumed_rate": 0.015,
+  "n_accounts": 6000,
+  "n_without_drawn_balance": 539,
+  "quantiles": {
+    "0.01": 0.04799461878742943,
+    "0.05": 0.058878678993996715,
+    "0.25": 0.10632382683717365,
+    "0.5": 0.2977674344366532,
+    "0.75": 1.5986077116937372
+  },
+  "max_break_even_pd": 0.02439024390243903,
+  "min_model_pd": 0.035299550741910934,
+  "share_positive_expected_contribution": 0.0
+}

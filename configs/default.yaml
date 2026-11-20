@@ -1,0 +1,137 @@
+# CREDITLAB — full research configuration.
+# Every number below that is marked HYPOTHETICAL is an assumption chosen for
+# illustration, not a value estimated from the dataset. See docs/ASSUMPTIONS.md.
+
+seed: 20051001          # single master seed; sub-seeds are derived from it deterministically
+
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  artifacts_dir: artifacts
+  sql_file: sql/analysis.sql
+
+data:
+  uci_id: 350
+  raw_filename: uci_350_data.csv      # immutable copy, official column names (ID, X1..X23, Y)
+  expected_rows: 30000
+  expected_features: 23
+
+features:
+  identifier: ID
+  target: DEFAULT_NEXT_MONTH
+  # Excluded from the primary predictive model (sensitive attributes).
+  exclude_sensitive: [SEX, AGE, MARRIAGE]
+  # Excluded from the initial primary specification (potential proxy concerns).
+  exclude_proxy: [EDUCATION]
+  # Used only for aggregate research audit, never as model inputs or policy rules.
+  audit_fields: [SEX, AGE, MARRIAGE, EDUCATION]
+  # Deterministic row-wise engineered features (no statistics learned across rows).
+  engineer: true
+  ratio_clip: 5.0          # cap for payment-to-bill and utilization ratios
+
+split:
+  train: 0.60
+  validation: 0.20
+  test: 0.20
+  stratify: true
+
+models:
+  cv_folds: 5
+  selection_metric: neg_log_loss     # proper scoring rule; PDs feed the risk engine
+  logistic:
+    C: [0.001, 0.01, 0.1, 1.0, 10.0]
+    class_weight: [null, balanced]
+    max_iter: 5000
+  xgboost:
+    n_iter: 30                       # randomized search draws
+    n_jobs: 4
+    param_distributions:
+      n_estimators: [200, 400, 700]
+      learning_rate: [0.02, 0.05, 0.1]
+      max_depth: [2, 3, 4, 5]
+      min_child_weight: [1, 5, 20]
+      subsample: [0.7, 0.85, 1.0]
+      colsample_bytree: [0.6, 0.8, 1.0]
+      reg_lambda: [1.0, 5.0, 20.0]
+      # "balanced" is resolved to n_negative / n_positive of the training split
+      scale_pos_weight: [1.0, balanced]
+
+calibration:
+  methods: [sigmoid, isotonic]
+  cv_folds: 5               # out-of-fold predictions on the TRAINING split only
+  n_bins: 10                # reliability-curve bins (quantile strategy)
+
+evaluation:
+  threshold_rule: max_f1    # threshold chosen on VALIDATION only
+  bootstrap_reps: 1000      # test-set bootstrap for metric confidence intervals
+
+risk:
+  currency: NTD             # New Taiwan dollars, as recorded in the source data
+  horizon: one month        # target = default on the next month's payment
+  # HYPOTHETICAL: LGD is not observed in this dataset.
+  lgd_base: 0.60
+  lgd_scenarios: [0.30, 0.60, 0.90]
+  # HYPOTHETICAL: EAD is not observed in this dataset.
+  ead:
+    method: balance_plus_ccf          # or: limit_fraction
+    ccf: 0.50                         # share of undrawn limit assumed drawn by default
+    limit_fraction: 0.50              # used when method = limit_fraction
+    cap: null                         # optional absolute cap per account (NTD)
+  ccf_scenarios: [0.0, 0.25, 0.50, 0.75, 1.0]
+  risk_bands: [0.0, 0.05, 0.10, 0.20, 0.35, 0.50, 1.0]
+
+simulation:
+  n_sims: 20000
+  chunk_size: 1000
+  var_levels: [0.95, 0.99]
+  # Exceedance thresholds expressed as multiples of the base-case analytical EL.
+  exceedance_multiples: [1.1, 1.25, 1.5, 2.0]
+  convergence_points: 40
+  rho_grid: [0.0, 0.02, 0.04, 0.08, 0.12, 0.20, 0.30]
+  sensitivity_n_sims: 10000
+  # HYPOTHETICAL scenarios. odds_multiplier m maps PD -> m*PD / (1 - PD + m*PD).
+  scenarios:
+    base:
+      description: Calibrated PDs, independent defaults, base LGD
+      odds_multiplier: 1.0
+      lgd: 0.60
+      rho: 0.0
+    base_correlated:
+      description: Calibrated PDs with Basel-QRRE-style asset correlation 0.04
+      odds_multiplier: 1.0
+      lgd: 0.60
+      rho: 0.04
+    mild_stress:
+      description: Default odds x1.5, independent defaults
+      odds_multiplier: 1.5
+      lgd: 0.60
+      rho: 0.0
+    severe_stress:
+      description: Default odds x2.5, higher LGD 0.75, independent defaults
+      odds_multiplier: 2.5
+      lgd: 0.75
+      rho: 0.0
+    correlated_downturn:
+      description: Default odds x1.5, LGD 0.75, common-factor correlation 0.12
+      odds_multiplier: 1.5
+      lgd: 0.75
+      rho: 0.12
+
+policy:
+  # HYPOTHETICAL one-month economics. Not estimated from the data.
+  monthly_revenue_rate: 0.015       # net revenue per month as a share of drawn balance
+  monthly_cost_per_account: 0.0     # fixed servicing cost per account per month (NTD)
+  lgd: 0.60
+  # Policy B cutoff rule, applied on the VALIDATION split with observed outcomes:
+  #   max_bad_rate: largest PD cutoff whose retained validation cohort has an observed default
+  #                 rate <= b_target_bad_rate (HYPOTHETICAL risk appetite; revenue-independent)
+  #   max_realized_contribution: cutoff maximising observed outcomes x assumed economics
+  b_rule: max_bad_rate
+  b_target_bad_rate: 0.10
+  revenue_rate_sensitivity: [0.005, 0.015, 0.03, 0.06, 0.12, 0.25]
+  random_baseline_draws: 1000
+  pd_threshold_grid_size: 199       # candidate PD cutoffs searched on VALIDATION
+  policy_tail_sims: 5000
+
+dashboard:
+  max_interactive_sims: 20000

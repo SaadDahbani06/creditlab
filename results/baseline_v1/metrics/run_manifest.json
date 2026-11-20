@@ -1,0 +1,438 @@
+{
+  "config_source": "configs/default.yaml",
+  "config_fingerprint": "84c8f11f59e9bdab",
+  "config": {
+    "seed": 20051001,
+    "paths": {
+      "raw_dir": "data/raw",
+      "processed_dir": "data/processed",
+      "artifacts_dir": "artifacts",
+      "sql_file": "sql/analysis.sql"
+    },
+    "data": {
+      "uci_id": 350,
+      "raw_filename": "uci_350_data.csv",
+      "expected_rows": 30000,
+      "expected_features": 23
+    },
+    "features": {
+      "identifier": "ID",
+      "target": "DEFAULT_NEXT_MONTH",
+      "exclude_sensitive": [
+        "SEX",
+        "AGE",
+        "MARRIAGE"
+      ],
+      "exclude_proxy": [
+        "EDUCATION"
+      ],
+      "audit_fields": [
+        "SEX",
+        "AGE",
+        "MARRIAGE",
+        "EDUCATION"
+      ],
+      "engineer": true,
+      "ratio_clip": 5.0
+    },
+    "split": {
+      "train": 0.6,
+      "validation": 0.2,
+      "test": 0.2,
+      "stratify": true
+    },
+    "models": {
+      "cv_folds": 5,
+      "selection_metric": "neg_log_loss",
+      "logistic": {
+        "C": [
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0
+        ],
+        "class_weight": [
+          null,
+          "balanced"
+        ],
+        "max_iter": 5000
+      },
+      "xgboost": {
+        "n_iter": 30,
+        "n_jobs": 4,
+        "param_distributions": {
+          "n_estimators": [
+            200,
+            400,
+            700
+          ],
+          "learning_rate": [
+            0.02,
+            0.05,
+            0.1
+          ],
+          "max_depth": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "min_child_weight": [
+            1,
+            5,
+            20
+          ],
+          "subsample": [
+            0.7,
+            0.85,
+            1.0
+          ],
+          "colsample_bytree": [
+            0.6,
+            0.8,
+            1.0
+          ],
+          "reg_lambda": [
+            1.0,
+            5.0,
+            20.0
+          ],
+          "scale_pos_weight": [
+            1.0,
+            "balanced"
+          ]
+        }
+      }
+    },
+    "calibration": {
+      "methods": [
+        "sigmoid",
+        "isotonic"
+      ],
+      "cv_folds": 5,
+      "n_bins": 10
+    },
+    "evaluation": {
+      "threshold_rule": "max_f1",
+      "bootstrap_reps": 1000
+    },
+    "risk": {
+      "currency": "NTD",
+      "horizon": "one month",
+      "lgd_base": 0.6,
+      "lgd_scenarios": [
+        0.3,
+        0.6,
+        0.9
+      ],
+      "ead": {
+        "method": "balance_plus_ccf",
+        "ccf": 0.5,
+        "limit_fraction": 0.5,
+        "cap": null
+      },
+      "ccf_scenarios": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "risk_bands": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.35,
+        0.5,
+        1.0
+      ]
+    },
+    "simulation": {
+      "n_sims": 20000,
+      "chunk_size": 1000,
+      "var_levels": [
+        0.95,
+        0.99
+      ],
+      "exceedance_multiples": [
+        1.1,
+        1.25,
+        1.5,
+        2.0
+      ],
+      "convergence_points": 40,
+      "rho_grid": [
+        0.0,
+        0.02,
+        0.04,
+        0.08,
+        0.12,
+        0.2,
+        0.3
+      ],
+      "sensitivity_n_sims": 10000,
+      "scenarios": {
+        "base": {
+          "description": "Calibrated PDs, independent defaults, base LGD",
+          "odds_multiplier": 1.0,
+          "lgd": 0.6,
+          "rho": 0.0
+        },
+        "base_correlated": {
+          "description": "Calibrated PDs with Basel-QRRE-style asset correlation 0.04",
+          "odds_multiplier": 1.0,
+          "lgd": 0.6,
+          "rho": 0.04
+        },
+        "mild_stress": {
+          "description": "Default odds x1.5, independent defaults",
+          "odds_multiplier": 1.5,
+          "lgd": 0.6,
+          "rho": 0.0
+        },
+        "severe_stress": {
+          "description": "Default odds x2.5, higher LGD 0.75, independent defaults",
+          "odds_multiplier": 2.5,
+          "lgd": 0.75,
+          "rho": 0.0
+        },
+        "correlated_downturn": {
+          "description": "Default odds x1.5, LGD 0.75, common-factor correlation 0.12",
+          "odds_multiplier": 1.5,
+          "lgd": 0.75,
+          "rho": 0.12
+        }
+      }
+    },
+    "policy": {
+      "monthly_revenue_rate": 0.015,
+      "monthly_cost_per_account": 0.0,
+      "lgd": 0.6,
+      "b_rule": "max_bad_rate",
+      "b_target_bad_rate": 0.1,
+      "revenue_rate_sensitivity": [
+        0.005,
+        0.015,
+        0.03,
+        0.06,
+        0.12,
+        0.25
+      ],
+      "random_baseline_draws": 1000,
+      "pd_threshold_grid_size": 199,
+      "policy_tail_sims": 5000
+    },
+    "dashboard": {
+      "max_interactive_sims": 20000
+    }
+  },
+  "seed": 20051001,
+  "environment": {
+    "python": "3.11.15",
+    "platform": "macOS-15.7.3-arm64-arm-64bit",
+    "machine": "arm64",
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "3.1.1",
+      "pyarrow": "26.0.1",
+      "duckdb": "2.0.0",
+      "ucimlrepo": "0.0.7",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.2.0",
+      "scipy": "1.17.1",
+      "matplotlib": "3.11.2",
+      "joblib": "1.6.0",
+      "pyyaml": "6.0.3",
+      "streamlit": "1.67.0",
+      "plotly": "7.1.0"
+    },
+    "git_commit": null
+  },
+  "stages": {
+    "fetch": {
+      "completed_utc": "2026-11-19T14:08:43+00:00",
+      "raw_file": "/Users/saaddahbani/creditlab/data/raw/uci_350_data.csv",
+      "sha256": "70b04919874ce71492cd9e08e7bad15389a104e79bebf7811bf338ee89947b20",
+      "rows": 30000,
+      "source": "ucimlrepo"
+    },
+    "prepare": {
+      "completed_utc": "2026-11-19T15:36:25+00:00",
+      "processed_file": "/Users/saaddahbani/creditlab/data/processed/accounts.parquet",
+      "split_counts": {
+        "train": 18000,
+        "validation": 6000,
+        "test": 6000
+      },
+      "model_input_columns": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "engineered_features": [
+        "UTIL_1",
+        "UTIL_MEAN_6",
+        "BILL_TREND_6",
+        "PAY_TO_BILL_6M",
+        "NO_POSITIVE_BILL_6M",
+        "N_MONTHS_DELAYED",
+        "MAX_DELAY",
+        "N_MONTHS_CODE_M2",
+        "N_MONTHS_CODE_M1"
+      ]
+    },
+    "sql": {
+      "completed_utc": "2026-11-19T15:36:26+00:00",
+      "queries": [
+        "overall_default_rate",
+        "default_rate_by_pay0",
+        "repayment_delay_patterns",
+        "status_code_by_month",
+        "status_transition_aug_to_sep",
+        "bill_amount_distribution",
+        "payment_to_bill_ratio",
+        "credit_limit_deciles",
+        "default_by_risk_bands",
+        "data_quality_checks",
+        "demographic_audit"
+      ]
+    },
+    "train": {
+      "completed_utc": "2026-11-19T15:36:52+00:00",
+      "n_train": 18000,
+      "best_params": {
+        "dummy_raw": {
+          "strategy": "prior"
+        },
+        "logistic_raw": {
+          "C": 0.1,
+          "class_weight": null
+        },
+        "xgboost_raw": {
+          "subsample": 0.7,
+          "scale_pos_weight": 1.0,
+          "reg_lambda": 20.0,
+          "n_estimators": 200,
+          "min_child_weight": 5,
+          "max_depth": 5,
+          "learning_rate": 0.02,
+          "colsample_bytree": 0.8
+        }
+      }
+    },
+    "evaluate": {
+      "completed_utc": "2026-11-19T15:37:11+00:00",
+      "primary_model": "xgboost_raw",
+      "test_auc_primary": 0.7899125812299198,
+      "leakage_checks": {
+        "train_ids_match_model_metadata": true,
+        "n_train_matches": true,
+        "validation_disjoint_from_train": true,
+        "test_disjoint_from_train": true,
+        "test_disjoint_from_validation": true
+      }
+    },
+    "simulate": {
+      "completed_utc": "2026-11-19T15:37:28+00:00",
+      "n_sims": 20000,
+      "seed": 473759312,
+      "portfolio": "test split",
+      "model": "xgboost_raw",
+      "scenarios": [
+        "base",
+        "base_correlated",
+        "mild_stress",
+        "severe_stress",
+        "correlated_downturn"
+      ]
+    },
+    "policy": {
+      "completed_utc": "2026-11-19T15:37:32+00:00",
+      "model": "xgboost_raw",
+      "b_threshold": 0.17483872443437573
+    },
+    "report": {
+      "completed_utc": "2026-11-19T15:38:36+00:00",
+      "tables": [
+        "dataset",
+        "test_metrics",
+        "test_difference",
+        "threshold_metrics",
+        "validation_all",
+        "test_all",
+        "calibration_bootstrap",
+        "selection",
+        "hyperparameters",
+        "importance",
+        "audit",
+        "expected_loss",
+        "risk_bands",
+        "el_sensitivity",
+        "scenarios",
+        "scenario_checks",
+        "mc_unbiasedness",
+        "rho_sensitivity",
+        "lgd_sensitivity",
+        "observed_vs_simulated",
+        "policy",
+        "policy_threshold",
+        "policy_revenue",
+        "policy_audit"
+      ],
+      "injected": {
+        "docs/RESEARCH_REPORT.md": [
+          "dataset",
+          "test_metrics",
+          "test_difference",
+          "threshold_metrics",
+          "validation_all",
+          "calibration_bootstrap",
+          "selection",
+          "hyperparameters",
+          "importance",
+          "audit",
+          "expected_loss",
+          "risk_bands",
+          "el_sensitivity",
+          "scenarios",
+          "scenario_checks",
+          "mc_unbiasedness",
+          "rho_sensitivity",
+          "lgd_sensitivity",
+          "observed_vs_simulated",
+          "policy",
+          "policy_threshold",
+          "policy_revenue",
+          "policy_audit"
+        ],
+        "docs/MODEL_CARD.md": [
+          "test_metrics",
+          "test_difference",
+          "threshold_metrics",
+          "calibration_bootstrap",
+          "selection",
+          "hyperparameters",
+          "audit"
+        ]
+      }
+    }
+  }
+}

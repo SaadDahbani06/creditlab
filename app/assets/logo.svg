@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="236" height="48" viewBox="0 0 236 48">
+  <rect x="2" y="4" width="40" height="40" rx="11" fill="#D7263D"/>
+  <path d="M12 32 L19 23 L24 27 L32 15" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="32" cy="15" r="3" fill="#FFFFFF"/>
+  <text x="54" y="32" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="800" letter-spacing="-0.4" fill="#1C1B1F">CREDIT<tspan fill="#D7263D">LAB</tspan></text>
+</svg>

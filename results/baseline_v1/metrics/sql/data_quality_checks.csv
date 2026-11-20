@@ -1,0 +1,14 @@
+check_name,n
+rows,30000
+distinct IDs,30000
+NULL cells (all columns),0
+"target not in {0,1}",0
+PAY_0 = -2 (undocumented),2759
+PAY_0 = 0 (undocumented),14737
+any status code 1 in PAY_2..PAY_6,28
+"EDUCATION in {0,5,6} (undocumented)",345
+MARRIAGE = 0 (undocumented),54
+any negative bill amount,1930
+any bill above credit limit,3931
+all bills <= 0 and no payments (inactive),860
+negative payment amount,0

@@ -1,0 +1,109 @@
+{
+  "n_train": 18000,
+  "n_train_defaults": 3982,
+  "train_id_sha256": "f28f0ad06c4aacccf730c18f423dd11f7b1083b84f5f204792c485e2965d679e",
+  "input_features": [
+    "LIMIT_BAL",
+    "PAY_0",
+    "PAY_2",
+    "PAY_3",
+    "PAY_4",
+    "PAY_5",
+    "PAY_6",
+    "BILL_AMT1",
+    "BILL_AMT2",
+    "BILL_AMT3",
+    "BILL_AMT4",
+    "BILL_AMT5",
+    "BILL_AMT6",
+    "PAY_AMT1",
+    "PAY_AMT2",
+    "PAY_AMT3",
+    "PAY_AMT4",
+    "PAY_AMT5",
+    "PAY_AMT6"
+  ],
+  "selection_metric": "neg_log_loss",
+  "models": {
+    "dummy_raw": {
+      "params": {
+        "strategy": "prior"
+      },
+      "fit_seconds": 0.0013340000004973263
+    },
+    "logistic_raw": {
+      "params": {
+        "C": 0.1,
+        "class_weight": null
+      },
+      "cv_mean_log_loss": 0.43190454313868554,
+      "cv_mean_roc_auc": 0.7775750165353971,
+      "cv_candidates": 10,
+      "fit_seconds": 2.7921010419959202
+    },
+    "logistic_sigmoid": {
+      "base_params": {
+        "C": 0.1,
+        "class_weight": null
+      },
+      "method": "sigmoid",
+      "calibration": "5-fold training OOF, ensemble=False",
+      "fit_seconds": 0.38183608300460037
+    },
+    "logistic_isotonic": {
+      "base_params": {
+        "C": 0.1,
+        "class_weight": null
+      },
+      "method": "isotonic",
+      "calibration": "5-fold training OOF, ensemble=False",
+      "fit_seconds": 0.42306408399599604
+    },
+    "xgboost_raw": {
+      "params": {
+        "subsample": 0.7,
+        "scale_pos_weight": 1.0,
+        "reg_lambda": 20.0,
+        "n_estimators": 200,
+        "min_child_weight": 5,
+        "max_depth": 5,
+        "learning_rate": 0.02,
+        "colsample_bytree": 0.8
+      },
+      "cv_mean_log_loss": 0.42530328035354614,
+      "cv_mean_roc_auc": 0.7862992436380818,
+      "cv_candidates": 30,
+      "fit_seconds": 18.83501912499196
+    },
+    "xgboost_sigmoid": {
+      "base_params": {
+        "subsample": 0.7,
+        "scale_pos_weight": 1.0,
+        "reg_lambda": 20.0,
+        "n_estimators": 200,
+        "min_child_weight": 5,
+        "max_depth": 5,
+        "learning_rate": 0.02,
+        "colsample_bytree": 0.8
+      },
+      "method": "sigmoid",
+      "calibration": "5-fold training OOF, ensemble=False",
+      "fit_seconds": 1.887030166995828
+    },
+    "xgboost_isotonic": {
+      "base_params": {
+        "subsample": 0.7,
+        "scale_pos_weight": 1.0,
+        "reg_lambda": 20.0,
+        "n_estimators": 200,
+        "min_child_weight": 5,
+        "max_depth": 5,
+        "learning_rate": 0.02,
+        "colsample_bytree": 0.8
+      },
+      "method": "isotonic",
+      "calibration": "5-fold training OOF, ensemble=False",
+      "fit_seconds": 1.81258991699724
+    }
+  }
+}

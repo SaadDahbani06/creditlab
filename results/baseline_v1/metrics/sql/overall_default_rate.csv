@@ -1,0 +1,5 @@
+split,n_accounts,n_defaults,default_rate
+ALL,30000,6636.0,0.2212
+train,18000,3982.0,0.2212
+validation,6000,1327.0,0.2212
+test,6000,1327.0,0.2212

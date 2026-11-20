@@ -1,0 +1,16 @@
+{
+  "base": {
+    "observed_defaults": 1327,
+    "simulated_mean": 1329.24035,
+    "simulated_p2_5": 1274.0,
+    "simulated_p97_5": 1386.0,
+    "share_of_paths_below_observed": 0.46355
+  },
+  "base_correlated": {
+    "observed_defaults": 1327,
+    "simulated_mean": 1323.6685,
+    "simulated_p2_5": 822.0,
+    "simulated_p97_5": 1931.0,
+    "share_of_paths_below_observed": 0.53105
+  }
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "overall_default_rate",
+    "description": "Default counts and rates for the full dataset and each split (all rows).",
+    "rows": 4
+  },
+  {
+    "name": "default_rate_by_pay0",
+    "description": "Default rate by most recent (September 2005) repayment status code. Codes -2 and 0 are undocumented by the source.",
+    "rows": 11
+  },
+  {
+    "name": "repayment_delay_patterns",
+    "description": "Number of months (of six) with a documented payment delay (status >= 1), with default rates.",
+    "rows": 7
+  },
+  {
+    "name": "status_code_by_month",
+    "description": "Share of accounts with each repayment status code in each month (Apr-Sep 2005), via UNPIVOT.",
+    "rows": 6
+  },
+  {
+    "name": "status_transition_aug_to_sep",
+    "description": "Transition of grouped status from August (PAY_2) to September (PAY_0) with next-month default rate.",
+    "rows": 11
+  },
+  {
+    "name": "bill_amount_distribution",
+    "description": "Quantiles of monthly bill statement amounts (NTD), Apr-Sep 2005, with share of negative (credit) balances.",
+    "rows": 6
+  },
+  {
+    "name": "payment_to_bill_ratio",
+    "description": "Distribution of six-month payments / six-month positive bills (capped at 5) and default rate per band.",
+    "rows": 7
+  },
+  {
+    "name": "credit_limit_deciles",
+    "description": "Credit limit (LIMIT_BAL, NTD) deciles via NTILE window function, with default rate per decile.",
+    "rows": 10
+  },
+  {
+    "name": "default_by_risk_bands",
+    "description": "Default rate across non-sensitive bands: latest utilisation x worst delay in six months.",
+    "rows": 16
+  },
+  {
+    "name": "data_quality_checks",
+    "description": "Missing, undocumented and unusual values across ALL rows (no outcome information used).",
+    "rows": 13
+  },
+  {
+    "name": "demographic_audit",
+    "description": "AUDIT ONLY (training split, aggregate). Default rates by sensitive attributes with sample sizes. Never used as model inputs or policy rules.",
+    "rows": 17
+  }
+]

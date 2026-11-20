@@ -1,0 +1,28 @@
+{
+  "n_accounts": 6000,
+  "total_ead": 644350267.5,
+  "total_el": 69914948.15353891,
+  "el_rate_of_ead": 0.10850456914497815,
+  "mean_pd": 0.22148638280543187,
+  "ead_weighted_pd": 0.1808409485749636,
+  "expected_defaults": 1328.9182968325913,
+  "share_el_top10pct_accounts_by_el": 0.3912677047705341,
+  "share_el_top_pd_decile": 0.2677739825845056,
+  "share_ead_top_pd_decile": 0.07088901612041311,
+  "ead_herfindahl": 0.000261884543609074,
+  "model": "xgboost_raw",
+  "assumptions": {
+    "lgd": 0.6,
+    "ead_method": "balance_plus_ccf",
+    "ccf": 0.5,
+    "limit_fraction": 0.5,
+    "ead_cap": null,
+    "currency": "NTD",
+    "horizon": "one month",
+    "status": "HYPOTHETICAL: LGD and EAD are not observed in the dataset",
+    "ead_formula": "max(BILL_AMT1, 0) + CCF * max(LIMIT_BAL - max(BILL_AMT1, 0), 0)"
+  },
+  "observed_defaults_in_portfolio": 1327,
+  "hypothetical_loss_at_observed_defaults": 72463215.6,
+  "note": "EL uses model PDs; 'hypothetical_loss_at_observed_defaults' applies the same ASSUMED LGD/EAD to the OBSERVED test-split defaults. Neither is an observed loss."
+}
