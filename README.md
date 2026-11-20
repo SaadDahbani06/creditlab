@@ -4,6 +4,9 @@
 hypothetical decision research** on the UCI *Default of Credit Card Clients* dataset
 (30,000 Taiwanese cardholders, 2005).
 
+Write-up: [saaddahbani.com/work/creditlab](https://saaddahbani.com/work/creditlab) ·
+Original pre-extension state: tag `v1-baseline`.
+
 > **Research project, not an underwriting system.** It makes no decision about any real person.
 > Only probability of default is estimated from data. Every loss, revenue and policy figure uses
 > explicitly *hypothetical* LGD, EAD and economic assumptions.

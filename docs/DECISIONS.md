@@ -130,3 +130,11 @@ comparisons are mostly implied by the assumptions (`docs/INDEPENDENT_REVIEW.md` 
 `docs/RESUME_RECOMMENDATIONS.md` contains personal career information and is listed in
 `.gitignore`. The resume bullets were removed from `docs/PRESENTATION.md`; the draft revision of
 the resume itself is stored outside the project folder.
+
+## D24. Published to GitHub (2026-11-20)
+The repository was published at https://github.com/SaadDahbani06/creditlab, superseding D1's
+"nothing is pushed anywhere". The tag `v1-baseline` marks the checkpoint commit taken before the
+research extension, so the original state stays one command away (`git checkout v1-baseline`).
+Raw data, processed data and generated artifacts are not committed (`.gitignore`); `creditlab all`
+rebuilds them. The frozen original outputs are in `results/baseline_v1/`. No license has been
+chosen yet, so default copyright applies until the owner adds one.

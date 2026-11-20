@@ -155,3 +155,7 @@ uncertainty:
   grid_sims: 10000
   lgd: 0.60                   # HYPOTHETICAL, same as the base scenario
   levels: [0.95, 0.99]
+
+links:
+  repository: https://github.com/SaadDahbani06/creditlab
+  website: https://saaddahbani.com/work/creditlab
